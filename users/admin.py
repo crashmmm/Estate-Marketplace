@@ -5,8 +5,8 @@ from . import models
 # Register your models here.
 
 
-@admin.register(models.User)
-class CustomUserAdmin(UserAdmin):
+@admin.register(models.User)                    #registers and controlls this model
+class CustomUserAdmin(UserAdmin):   #this class                                     #also we are inheriting here
 
     """Custom user Admin"""
 
@@ -26,3 +26,6 @@ class CustomUserAdmin(UserAdmin):
             },
         ),
     )
+
+# without using decoratore we can also write like this 
+# admin.site.register(models.User, CustomUserAdmin)

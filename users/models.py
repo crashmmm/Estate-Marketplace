@@ -3,7 +3,7 @@ from django.db import models
 
 
 # Create your models here.
-class User(AbstractUser):
+class User(AbstractUser):       #inheriting from per writtern django Abstract user and extending it
 
     """Custom User Model"""
 
@@ -30,17 +30,17 @@ class User(AbstractUser):
     # .null is for the database and blank is for the form
     # .we dont have to migrate while adding gender choices bcos its a
     # change only for the form and not the database
-    avatar = models.ImageField(null=True, blank=True)
+    avatar = models.ImageField(blank=True)
     gender = models.CharField(
-        choices=GENDER_CHOICES, max_length=10, null=True, blank=True
+        choices=GENDER_CHOICES, max_length=10, blank=True
     )
-    bio = models.TextField(default="", blank=True)
-    birthdate = models.DateField(null=True)
+    bio = models.TextField(blank=True)
+    birthdate = models.DateField( blank=True, null=True)
     language = models.CharField(
-        choices=LANGUAGE_CHOICES, max_length=2, null=True, blank=True
+        choices=LANGUAGE_CHOICES, max_length=2, blank=True
     )
     currency = models.CharField(
-        choices=CURRENCY_CHOICES, max_length=3, null=True, blank=True
+        choices=CURRENCY_CHOICES, max_length=3, blank=True
     )
 
     superhost = models.BooleanField(default=False)

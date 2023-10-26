@@ -40,11 +40,13 @@ DJANGO_APPS = [
 
 ]
 
+THIRD_PARTY_APPS = []
+
 PROJECT_APPS = [
     "users.apps.UsersConfig"
 ]
 
-INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -127,4 +129,4 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 # AUTH_USER_MODEL = 'myapp.MyUser'
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'      #used to overwrite the user model and create custom user model
