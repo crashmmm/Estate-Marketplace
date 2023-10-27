@@ -37,13 +37,14 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
 ]
 
 THIRD_PARTY_APPS = []
 
 PROJECT_APPS = [
-    "users.apps.UsersConfig"
+    "core.apps.CoreConfig",
+    "users.apps.UsersConfig",
+    "rooms.apps.RoomsConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
@@ -129,4 +130,6 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 # AUTH_USER_MODEL = 'myapp.MyUser'
-AUTH_USER_MODEL = 'users.User'      #used to overwrite the user model and create custom user model
+AUTH_USER_MODEL = (
+    "users.User"  # used to overwrite the user model and create custom user model
+)
