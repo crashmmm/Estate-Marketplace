@@ -44,3 +44,7 @@ class User(AbstractUser):       #inheriting from per writtern django Abstract us
     )
 
     superhost = models.BooleanField(default=False)
+
+    # .as this is extended from the preexisting users django has the str conversion of the class to selfname was probably preconfigured
+    # def __str__(self):
+    #         return self.name
