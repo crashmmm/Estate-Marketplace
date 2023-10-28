@@ -18,7 +18,7 @@ class User(AbstractUser):       #inheriting from per writtern django Abstract us
     )
 
     LANGUAGE_ENGLISH = "en"
-    LANGUAGE_KOREAN = "krw"
+    LANGUAGE_KOREAN = "kr"
 
     LANGUAGE_CHOICES = ((LANGUAGE_ENGLISH, "English"), (LANGUAGE_KOREAN, "Korean"))
 
