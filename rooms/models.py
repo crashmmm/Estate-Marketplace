@@ -6,7 +6,7 @@ from users import models as user_models
 
 class AbstractItem(core_models.TimeStampedModel):
 
-    """ Abstract Item """
+    """Abstract Item"""
 
     name = models.CharField(max_length=80)
 
@@ -19,7 +19,7 @@ class AbstractItem(core_models.TimeStampedModel):
 
 class RoomType(AbstractItem):
 
-    """ RoomType Model Definition """
+    """RoomType Model Definition"""
 
     class Meta:
         verbose_name = "Room Type"
@@ -29,7 +29,7 @@ class RoomType(AbstractItem):
 
 class Amenity(AbstractItem):
 
-    """ Amenity Model Definition """
+    """Amenity Model Definition"""
 
     class Meta:
         verbose_name_plural = "Amenities"
@@ -37,7 +37,7 @@ class Amenity(AbstractItem):
 
 class Facilitie(AbstractItem):
 
-    """ Facilitie Model Definition """
+    """Facilitie Model Definition"""
 
     class Meta:
         verbose_name_plural = "Facilities"
@@ -45,26 +45,30 @@ class Facilitie(AbstractItem):
 
 class HouseRule(AbstractItem):
 
-    """ HouseRule Model Definition """
+    """HouseRule Model Definition"""
 
     class Meta:
         verbose_name = "House Rule"
 
+
 class Photo(core_models.TimeStampedModel):
 
-    """ Photo Model Definition"""
+    """Photo Model Definition"""
 
     caption = models.CharField(max_length=80)
     file = models.ImageField()
-    room  = models.ForeignKey("Room", on_delete=models.CASCADE) #Room is below and py reads top to bottom.
-                                                                #"" works as it searches the "" class in this file.
+    room = models.ForeignKey(
+        "Room", related_name="photos", on_delete=models.CASCADE
+    )  # Room is below and py reads top to bottom.
+
+    # "" works as it searches the "" class in this file.
     def __str__(self):
         return self.caption
 
 
 class Room(core_models.TimeStampedModel):
 
-    """ Room Model Definition """
+    """Room Model Definition"""
 
     name = models.CharField(max_length=140)
     description = models.TextField()
@@ -79,11 +83,34 @@ class Room(core_models.TimeStampedModel):
     check_in = models.TimeField()
     check_out = models.TimeField()
     instant_book = models.BooleanField(default=False)
-    host = models.ForeignKey(user_models.User, on_delete=models.CASCADE) #can replace "users.User" and still work
-    room_type = models.ForeignKey(RoomType, on_delete=models.SET_NULL, null=True)
-    amenities = models.ManyToManyField(Amenity, blank=True)   #can replace Amenity with "Amenity" and it would still work
-    facilities = models.ManyToManyField(Facilitie, blank=True)
-    house_rules = models.ManyToManyField(HouseRule, blank=True)
+    host = models.ForeignKey(
+        user_models.User,
+        related_name="rooms",  # default was "room_set" so to access room from user - user.room_set.all()
+        on_delete=models.CASCADE,
+    )
+    # can replace "users.User" and still work
+    room_type = models.ForeignKey(
+        RoomType, 
+        related_name="rooms", 
+        on_delete=models.SET_NULL, 
+        null=True
+    )
+    amenities = models.ManyToManyField(
+        Amenity,
+        related_name="rooms",
+        blank=True,
+    )
+    # can replace Amenity with "Amenity" and it would still work
+    facilities = models.ManyToManyField(
+        Facilitie,
+        related_name="rooms",
+        blank=True,
+    )
+    house_rules = models.ManyToManyField(
+        HouseRule,
+        related_name="rooms",
+        blank=True,
+    )
 
     # .when a class has to be displayed as a string dj/py calls __str__
     def __str__(self):  # py/django tries to change every class to str

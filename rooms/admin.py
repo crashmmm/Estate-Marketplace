@@ -1,23 +1,126 @@
 from django.contrib import admin
 from . import models
 
-@admin.register(models.RoomType, models.Facilitie, models.Amenity, models.HouseRule) #as the other models only have name as common so we put 
-class ItemAdmin(admin.ModelAdmin):                                                    #them in the same admin class which only has a name 
 
-    """ Item Admin Definition """
+@admin.register(
+    models.RoomType, models.Facilitie, models.Amenity, models.HouseRule
+)  # as the other models only have name as common so we put
+class ItemAdmin(admin.ModelAdmin):  # them in the same admin class which only has a name
+
+    """Item Admin Definition"""
 
     pass
+
 
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
 
-    """ Room Admin Definition """
+    """Room Admin Definition"""
 
-    pass
+    fieldsets = (
+        (
+            "Basic Info",
+            {
+                "fields": (
+                    "name",
+                    "description",
+                    "country",
+                    "address",
+                    "price",
+                )
+            },
+        ),
+        (
+            "Times",
+            {
+                "fields": (
+                    "check_in",
+                    "check_out",
+                    "instant_book",
+                )
+            },
+        ),
+        (
+            "Spaces",
+            {
+                "fields": (
+                    "guests",
+                    "beds",
+                    "bedrooms",
+                    "baths",
+                )
+            },
+        ),
+        (
+            "More About the Space",
+            {
+                "classes": ("collapse",),
+                "fields": (
+                    "amenities",
+                    "facilities",
+                    "house_rules",
+                ),
+            },
+        ),
+        (
+            "Last Details",
+            {"fields": ("host",)},
+        ),
+    )
+
+    ordering = ("name", "price", "bedrooms")
+
+    list_display = (
+        "name",
+        "country",
+        "city",
+        "price",
+        "guests",
+        "beds",
+        "bedrooms",
+        "baths",
+        "check_in",
+        "check_out",
+        "instant_book",
+        "count_amenities",
+    )
+
+    list_filter = (
+        "instant_book",
+        "host__superhost",
+        "host__gender",
+        "room_type",
+        "amenities",
+        "facilities",
+        "house_rules",
+        "city",
+        "country",
+    )
+
+    search_fields = (
+        "city",  # "^city"/"=city"/"@city" (doc)
+        "host__username",  # __ to access username of host which is in rooms
+    )
+
+    filter_horizontal = (  # only for many to many relationships
+        "amenities",
+        "facilities",
+        "house_rules",
+    )
+
+    def count_amenities(self, obj):
+        # print(obj)
+        # print(obj.amenities)
+        # print(obj.amenities.all())
+        # return "Potato"
+        return obj.amenities.count()
+
+    count_amenities.short_description = "hahaaha"
+
 
 @admin.register(models.Photo)
 class PhotoAdmin(admin.ModelAdmin):
 
-    """ Photo Admin Definition """
+    """Photo Admin Definition"""
 
     pass
