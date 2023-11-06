@@ -115,3 +115,10 @@ class Room(core_models.TimeStampedModel):
     # .when a class has to be displayed as a string dj/py calls __str__
     def __str__(self):  # py/django tries to change every class to str
         return self.name
+    
+    def total_rating(self):
+        all_reviews = self.reviews.all()
+        all_ratings = 0
+        for review in all_reviews:
+            all_ratings += review.rating_average()
+        return all_ratings / len(all_reviews)

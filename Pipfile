@@ -9,8 +9,8 @@ pillow = "*"
 django-countries = "*"
 
 [dev-packages]
-flake8 = "*"
 black = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.11"

@@ -2,14 +2,18 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(
-    models.RoomType, models.Facilitie, models.Amenity, models.HouseRule
-)  # as the other models only have name as common so we put
+@admin.register(models.RoomType,models.Facilitie,models.Amenity,models.HouseRule)  # as the other models only have name as common so we put
 class ItemAdmin(admin.ModelAdmin):  # them in the same admin class which only has a name
 
     """Item Admin Definition"""
 
-    pass
+    list_display = (
+        "name",
+        "used_by",
+    )
+
+    def used_by(self, obj):
+        return obj.rooms.count()
 
 
 @admin.register(models.Room)
@@ -83,6 +87,9 @@ class RoomAdmin(admin.ModelAdmin):
         "check_out",
         "instant_book",
         "count_amenities",
+        "count_facilities",
+        "count_photos",
+        "total_rating",
     )
 
     list_filter = (
@@ -114,8 +121,19 @@ class RoomAdmin(admin.ModelAdmin):
         # print(obj.amenities.all())
         # return "Potato"
         return obj.amenities.count()
-
+    
     count_amenities.short_description = "hahaaha"
+    
+    def count_facilities(self, obj):
+        return obj.facilities.count()
+    
+    # def count_room_type(self, obj):       #cant do this as one to many?
+    #     return obj.room_type.count()
+        
+
+    def count_photos(self, obj):
+        return obj.photos.count()       #Photos class has related name photos so can be accessed
+
 
 
 @admin.register(models.Photo)
