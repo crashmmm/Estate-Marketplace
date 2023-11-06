@@ -30,7 +30,7 @@ class User(AbstractUser):       #inheriting from per writtern django Abstract us
     # .null is for the database and blank is for the form
     # .we dont have to migrate while adding gender choices bcos its a
     # change only for the form and not the database
-    avatar = models.ImageField(blank=True)
+    avatar = models.ImageField(upload_to='avatars', blank=True)
     gender = models.CharField(
         choices=GENDER_CHOICES, max_length=10, blank=True
     )

@@ -159,5 +159,11 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+
+# Manually Added
+
 # MAC
 .DS_Store
+
+#dir's
+uploads/
