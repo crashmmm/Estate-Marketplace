@@ -16,11 +16,15 @@ class ItemAdmin(admin.ModelAdmin):  # them in the same admin class which only ha
     def used_by(self, obj):
         return obj.rooms.count()
 
+class PhotoInline(admin.TabularInline):
+    model = models.Photo
 
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
 
     """Room Admin Definition"""
+
+    inlines = (PhotoInline,)
 
     fieldsets = (
         (
@@ -30,6 +34,7 @@ class RoomAdmin(admin.ModelAdmin):
                     "name",
                     "description",
                     "country",
+                    "city",
                     "address",
                     "price",
                 )
@@ -103,6 +108,10 @@ class RoomAdmin(admin.ModelAdmin):
         "house_rules",
         "city",
         "country",
+    )
+
+    raw_id_fields = (   #better view the foreign keys
+        'host',
     )
 
     search_fields = (
